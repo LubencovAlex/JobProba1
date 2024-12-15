@@ -18,6 +18,8 @@ class FavoriteFragment : Fragment(), AllVacancyCardDataAdapter.Listener {
     private val viewModelVacancy: MainViewModel by activityViewModels()
     private lateinit var binding: FragmentFavoriteBinding
 
+    private val favoriteVacancyAdapter = AllVacancyCardDataAdapter(this)
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentFavoriteBinding.inflate(inflater, container, false)
         return binding.root
@@ -71,5 +73,17 @@ class FavoriteFragment : Fragment(), AllVacancyCardDataAdapter.Listener {
         activity?.supportFragmentManager?.beginTransaction()?.apply {
             replace(R.id.frameLayout, fragment).commit()
         }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onClickLike(item: VacancyCard) {
+        if (item.isFavorite){
+            viewModelVacancy.favoriteVacancyCardArrayList.remove(item)
+        } else{
+            viewModelVacancy.favoriteVacancyCardArrayList.add(item)
+        }
+        favoriteVacancyAdapter.submitList(viewModelVacancy.favoriteVacancyCardArrayList)
+        favoriteVacancyAdapter.notifyDataSetChanged()
+        viewModelVacancy.favoriteVacancyCardData.apply { viewModelVacancy.favoriteVacancyCardArrayList }
     }
 }

@@ -30,14 +30,22 @@ class MainActivity: AppCompatActivity(){
             // Отслеживаем нажатие по bottomNavigationView и переходим на нужный Фрагмент
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId){
-                R.id.search -> replaceFragment(SearchFragment())
+                R.id.search -> {
+                    replaceFragment(SearchFragment())
+                }
                 R.id.favorite -> {
                     binding.bottomNavigationView.removeBadge(R.id.favorite)
                     replaceFragment(FavoriteFragment())
                 }
-                R.id.responses -> replaceFragment(ResponsesFragment())
-                R.id.messages -> replaceFragment(MessagesFragment())
-                R.id.profile -> replaceFragment(ProfileFragment())
+                R.id.responses -> {
+                    replaceFragment(ResponsesFragment())
+                }
+                R.id.messages -> {
+                    replaceFragment(MessagesFragment())
+                }
+                R.id.profile -> {
+                    replaceFragment(ProfileFragment())
+                }
                 else -> {
                 }
             }

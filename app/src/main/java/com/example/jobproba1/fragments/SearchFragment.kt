@@ -22,12 +22,8 @@ class SearchFragment : Fragment(), VacancyCardDataAdapter.Listener, ApiDataAdapt
 
     private val viewModelOffer: MainViewModel by activityViewModels()
     private val viewModelVacancy: MainViewModel by activityViewModels()
-    private val viewModelOffer2: MainViewModel by activityViewModels()
-    private val viewModelVacancy2: MainViewModel by activityViewModels()
 
-    val apiAdapter = ApiDataAdapter(this)
-    val vacancyAdapter = VacancyCardDataAdapter(this)
-    val favoriteVacancyAdapter = VacancyCardDataAdapter(this)
+    private val favoriteVacancyAdapter = VacancyCardDataAdapter(this)
 
     private lateinit var binding: FragmentSearchBinding
 
@@ -108,14 +104,14 @@ class SearchFragment : Fragment(), VacancyCardDataAdapter.Listener, ApiDataAdapt
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onClickLike(item: VacancyCard) {
-        if (!item.isFavorite){
-            viewModelVacancy2.favoriteVacancyCardArrayList.remove(item)
+        if (item.isFavorite){
+            viewModelVacancy.favoriteVacancyCardArrayList.remove(item)
         } else{
-            viewModelVacancy2.favoriteVacancyCardArrayList.add(item)
+            viewModelVacancy.favoriteVacancyCardArrayList.add(item)
         }
-        favoriteVacancyAdapter.submitList(viewModelVacancy2.favoriteVacancyCardArrayList)
+        favoriteVacancyAdapter.submitList(viewModelVacancy.favoriteVacancyCardArrayList)
         favoriteVacancyAdapter.notifyDataSetChanged()
-        viewModelVacancy2.favoriteVacancyCardData.apply { viewModelOffer2.favoriteVacancyCardArrayList }
+        viewModelVacancy.favoriteVacancyCardData.apply { viewModelVacancy.favoriteVacancyCardArrayList }
     }
 
     // Функция для запуска интернетобозревателя, которая делает переход на страничку по ссылке

@@ -16,6 +16,16 @@ class AllVacancyCardDataAdapter(private val listener: Listener): ListAdapter<Vac
         private val binding = CardVacancyesForYouBinding.bind(view)
         @SuppressLint("SetTextI18n")
         fun bind(item: VacancyCard, listener: Listener) = with(binding){
+            binding.imageButton2.setOnClickListener {
+                listener.onClickLike(item)
+                if (item.isFavorite){
+                    imageButton2.setImageResource(R.drawable.favorite)
+                    item.isFavorite = false
+                } else{
+                    imageButton2.setImageResource(R.drawable.heart__state_active)
+                    item.isFavorite = true
+                }
+            }
             itemView.setOnClickListener {
                 listener.onClick(item)
             }
@@ -64,5 +74,6 @@ class AllVacancyCardDataAdapter(private val listener: Listener): ListAdapter<Vac
 
     interface Listener{
         fun onClick(item: VacancyCard)
+        fun onClickLike(item: VacancyCard)
     }
 }

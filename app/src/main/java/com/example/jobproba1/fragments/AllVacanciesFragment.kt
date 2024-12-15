@@ -11,11 +11,14 @@ import com.example.jobproba1.MainViewModel
 import com.example.jobproba1.R
 import com.example.jobproba1.apidata.AllVacancyCardDataAdapter
 import com.example.jobproba1.apidata.VacancyCard
+import com.example.jobproba1.apidata.VacancyCardDataAdapter
 import com.example.jobproba1.databinding.FragmentAllVacancyesBinding
 
 class AllVacanciesFragment : Fragment(), AllVacancyCardDataAdapter.Listener {
     private lateinit var binding: FragmentAllVacancyesBinding
     private val viewModelVacancy: MainViewModel by activityViewModels()
+
+    private val favoriteVacancyAdapter = AllVacancyCardDataAdapter(this)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
@@ -71,5 +74,17 @@ class AllVacanciesFragment : Fragment(), AllVacancyCardDataAdapter.Listener {
         activity?.supportFragmentManager?.beginTransaction()?.apply {
             replace(R.id.frameLayout, fragment).commit()
         }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onClickLike(item: VacancyCard) {
+        if (item.isFavorite){
+            viewModelVacancy.favoriteVacancyCardArrayList.remove(item)
+        } else{
+            viewModelVacancy.favoriteVacancyCardArrayList.add(item)
+        }
+        favoriteVacancyAdapter.submitList(viewModelVacancy.favoriteVacancyCardArrayList)
+        favoriteVacancyAdapter.notifyDataSetChanged()
+        viewModelVacancy.favoriteVacancyCardData.apply { viewModelVacancy.favoriteVacancyCardArrayList }
     }
 }
